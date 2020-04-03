@@ -1,0 +1,101 @@
+
+<b>Dealer</b>&nbsp;(<%=session[:dwins]%>)<br>
+<div style="position: relative; left: 0; top: 0;">
+
+<%if @dealerWon == 1 %>
+
+<%= image_tag("deck3/dealer_winner.png", height: "170", width: "100", alt:"dealer wins!", :style=>"position: relative; top: 0; left: 0") %>&nbsp;
+
+<%else%>
+
+<%= image_tag("deck3/dealer.png", height: "170", width: "100", alt:"dealer", :style=>"position: relative; top: 0; left: 0") %>&nbsp;
+
+<%end%>
+<%= render(:partial=>"hand", :locals=>{ :fc=>@dcFromHash, :fWon=>@dealerWon, :fR=>@dealerR})%>
+</div>
+
+<%#= @dealerRank.rank_name %>&nbsp;
+<%= @dealerRank.details %>&nbsp;
+<br><br>
+
+<b>Player</b>&nbsp;(<%=session[:pwins]%>)<br>
+
+<div style="position: relative; left: 0; top: 0;">
+<%if @playerWon == 1 %>
+
+<%= image_tag("deck3/player_winner.png", height: "170", width: "100", alt:"player wins!", :style=>"position: relative; top: 0; left: 0") %>&nbsp;
+
+<%else%>
+
+<%= image_tag("deck3/player.png", height: "170", width: "100", alt:"player", :style=>"position: relative; top: 0; left: 0") %>&nbsp;
+
+<%end%>
+
+<!--render the players final cards using a partial-->
+<%= render(:partial=>"hand", :locals=>{:fc=>@fcardArray, :fWon=>@playerWon, :fR=>@playerR})%>
+</div>
+
+<%#= @playerRank.rank_name %>&nbsp;
+<%= @playerRank.details %>&nbsp;
+<br>
+
+<!--hand before draw-->
+<table cellpadding="0" cellspacing="0">
+<tr>
+
+<td>
+<%#= link_to image_tag("deck2/playagain.png"), {:controller => 'home', :action => "new" } %>
+<%#= link_to "Go Again!", {:controller => 'home', :action => "new"}, {:class =>
+"button"} %>
+
+<%= form_tag :action => 'new' do %>
+<!--<button class="button">Deal</button>-->
+<%#= link_to "Deal Cards", {:controller => 'home', :action => "deal"}, {:class =>
+"button"} %>
+
+<%= button_tag(type: "submit", id:"btnPlayAgain", class: "button") do %>
+		<u>P</u>lay Again!
+	<% end %>&nbsp;
+<%end%>
+
+</td>
+
+<td>
+&nbsp;<%= render(:partial=>"handsmallhold", :locals=>{:fc=>@pcFromHash})%>
+</td>
+
+</tr>
+</table>
+<script type="text/javascript">
+	function waitPlayAgain(){
+		$body.addClass("loading");
+	}
+
+	$( document ).ready(function() {
+
+		document.getElementById("btnPlayAgain").addEventListener("click", function(){
+		   waitPlayAgain();
+		});
+	
+	});
+
+	//submit the form if user presses P or p
+	document.onkeypress = function(evt) {
+	   evt = evt || window.event;
+	   var charCode = evt.which || evt.keyCode;
+	   var charStr = String.fromCharCode(charCode);
+	   if (/[a-z0-9]/i.test(charStr)) {
+	       if(charStr == "p" || charStr == "P" || charStr == "D" || charStr == "d"){
+
+	       		$("form").submit();
+
+	       }
+
+	   }
+	};
+
+</script>
+
+<%#=params%>
+
+

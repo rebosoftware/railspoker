@@ -1,0 +1,96 @@
+
+
+<%= button_to "        Next Game!        ", action: "new" %>
+<br>
+
+
+<%
+
+pl1 = PokerCard.getHandbyIds("7,4,25,27,5")
+rnkpl1 = PokerRanking.rankcards(pl1)
+
+
+pl2 = PokerCard.getHandbyIds("3,7,24,27,9")
+rnkpl2 = PokerRanking.rankcards(pl2)
+
+%>
+
+7 4 Q A 5 &nbsp;
+<%=rnkpl1.details%>&nbsp;<%=rnkpl1.tieBreaker%>
+<br>
+
+3 7 J A 9&nbsp;
+<%=rnkpl2.details%>&nbsp;<%=rnkpl2.tieBreaker%>
+<br><br>
+
+
+Session id: <%=request.session_options[:id]%>
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@royalflush})%>
+<br>
+<%pr1 = PokerRanking.rankcards(@royalflush)%>
+<%= pr1.details %>&nbsp;
+<br><br>
+
+<!--straight flush-->
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@straightflush})%>
+<br>
+<%prsf = PokerRanking.rankcards(@straightflush)%>
+<%= prsf.details %>&nbsp;
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@fourofakind})%>
+<br>
+<%= PokerRanking.rankcards(@fourofakind).details %>
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@fullhouse})%>
+<br>
+<%= PokerRanking.rankcards(@fullhouse).details %>
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@flush})%>
+<br>
+<%= PokerRanking.rankcards(@flush).details %>
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@acehighstraight})%><br>
+<br>
+<%= PokerRanking.rankcards(@acehighstraight).details %>
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@acelowstraight})%>
+<br>
+<%= PokerRanking.rankcards(@acelowstraight).details %>
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@lowstraight})%>
+<br>
+<%pr2aadd = PokerRanking.rankcards(@lowstraight)%>
+<%= pr2aadd.rank_name %>
+<br>
+High Card: <%= pr2aadd.hHighCard.card_description %>&nbsp;
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@threeofakind})%>
+<br>
+<%= PokerRanking.rankcards(@threeofakind).rank_name %>
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@twopair})%>
+<br>
+<%= PokerRanking.rankcards(@twopair).rank_name %>
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@onepair})%>
+<br>
+<%= PokerRanking.rankcards(@onepair).rank_name %>
+<br><br>
+
+<%= render(:partial=>"handsmall", :locals=>{:fc=>@highcard})%>
+<br>
+<%= PokerRanking.rankcards(@highcard).rank_name %>
+<br><br>
+
+<%= button_to "        Next Game!        ", action: "new" %>

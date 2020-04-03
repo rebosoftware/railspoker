@@ -1,0 +1,42 @@
+<!--this is a partial to render a hand-->
+<%
+
+i = 110
+h = 0
+fc.each do |card|
+  cardimg = "deck3/" + card.id.to_s + ".png"
+  styl = ""
+  #if i == 60
+  #  styl = "position: relative; top: " + h.to_s + "; left: " + i.to_s + ";"
+  #else
+    styl = "position: absolute; top: " + h.to_s + "px; left: " + i.to_s + "px;"
+  #end
+  i += 60
+
+  #change the spread a little for the winner
+  if fWon > 0
+    h -= 8
+  end
+
+  %>
+    <%if card.hold%>
+    
+      <%= image_tag(cardimg.html_safe, height: "170", width: "100", alt: card.card_description, :style=>styl)  %>
+    
+    <%else%>
+
+        <%#= image_tag(cardimg.html_safe, height: "170", width: "100", alt: card.card_description, style: "border: 1px solid blue")  %>
+
+        <%= image_tag(cardimg.html_safe, height: "170", width: "100", alt: card.card_description, :style=>styl)  %>
+     
+
+    <%end if%>
+
+<%end%>
+
+<%#if fWon == 1%>
+	<%#= image_tag("deck3/check.png", alt: "Winner!")  %>
+<%#end%>
+
+
+<%#=fWon%>

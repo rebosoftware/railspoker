@@ -1,0 +1,28 @@
+<!--this is a partial to render a hand-->
+<div style="position: relative; left: 0; top: 0;">
+<%
+i = 0
+h = 0
+fc.each do |card|
+  cardimg = "deck3/" + card.id.to_s + ".png"
+  styl = ""
+  if i == 0
+  	styl = "position: relative; top: " + h.to_s + "; left: 0;"
+  else
+  	styl = "position: absolute; top: " + h.to_s + "px; left: " + i.to_s + "px;"
+  end
+  i += 30
+  h -= 7
+  %>
+    <%if card.hold%>
+    
+      <%= image_tag("deck3/card_hold.png", height: "80", width: "50", alt:"player card hold", :style=>styl ) %>
+    
+    <%else%>
+
+        <%= image_tag(cardimg.html_safe, :style=>styl, height: "80", width: "50", alt: card.card_description)  %>
+
+    <%end if%>
+
+<%end%>
+</div>

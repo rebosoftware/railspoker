@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RailsPoker.com - play for free, play for fun!</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+
+<style>
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('http://www.railspoker.com:8079/please_wait.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
+
+/*remove underline from all links*/
+a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.button {
+  padding: 10px 50px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+</style>
+
+</head>
+<body style="padding-left: 0px; padding-right: 0px; padding-top: 0px; padding-bottom: 0px;  background-color: darkgreen;">
+
+<div style="padding-left: 0px; padding-right: 0px; padding-top: 0px; padding-bottom: 0px; width:100%; text-align: center; background-color: darkgreen;">
+<br>
+<div style="width:90%; padding-left: 30px; padding-right: 5px; padding-top: 5px; padding-bottom: 5px; display: inline-block;  text-align: left; background-color: white;">
+<br>
+<%= yield %>
+<br>
+</div>
+</div>
+
+<div class="modal"><!-- Place at bottom of page --></div>
+<script>
+$body = $("body");
+
+$(document).on({
+    ajaxStart: function() { $body.addClass("loading");    },
+     ajaxStop: function() { $body.removeClass("loading"); }    
+});
+
+
+
+</script>
+</body>
+</html>

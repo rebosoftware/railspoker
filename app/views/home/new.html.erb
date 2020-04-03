@@ -1,0 +1,79 @@
+
+<%
+#debug code to see the dealers draw
+#@dcd.each do |c|
+#	cimg = "deck3/" + c.id.to_s + ".png"%>
+	
+  		<%#= image_tag(cimg.html_safe, height: "60", width: "60", alt: c.card_description) %>
+<%#end%>
+
+<b>Dealer</b>&nbsp;(<%=session[:dwins]%>)<br>
+<%= image_tag("deck3/dealer.png", height: "170", width: "100", alt:"dealer") %>&nbsp;
+<%
+i=0
+@dc.each do |card|
+	cardimg = "deck3/" + card.id.to_s + ".png"
+	i += 1
+	
+	if i <= 2 %>
+
+  		<%= image_tag(cardimg.html_safe, height: "170", width: "100", alt: card.card_description) %>&nbsp;
+  	<%else%>
+
+  		<%= image_tag("deck3/card_back.png", height: "170", width: "100", alt:"guess") %>&nbsp;
+  	<%end%>
+
+  	<%end%>
+<br><br>
+
+<b>Player</b>&nbsp;(<%=session[:pwins]%>)<br>
+<%= image_tag("deck3/player.png", height: "170", width: "100", alt:"player") %>&nbsp;
+<%= image_tag("deck3/card_back.png", height: "170", width: "100", alt:"player card (1)") %>&nbsp;
+<%= image_tag("deck3/card_back.png", height: "170", width: "100", alt:"player card (2)") %>&nbsp;
+<%= image_tag("deck3/card_back.png", height: "170", width: "100", alt:"player card (3)") %>&nbsp;
+<%= image_tag("deck3/card_back.png", height: "170", width: "100", alt:"player card (4)") %>&nbsp;
+<%= image_tag("deck3/card_back.png", height: "170", width: "100", alt:"player card (5)") %>&nbsp;
+<br><br>
+
+<%#= link_to image_tag("deck3/deal.png"), {:controller => 'home', :action => "deal" } %>
+<%= form_tag :action => 'deal' do %>
+<!--<button class="button">Deal</button>-->
+<%#= link_to "Deal Cards", {:controller => 'home', :action => "deal"}, {:class =>
+"button"} %>
+
+<%= button_tag(type: "submit", id:"btnDeal", class: "button") do %>
+		<u>D</u>eal
+	<% end %>
+<%end%>
+
+<script type="text/javascript">
+	function waitDeal(){
+		$body.addClass("loading");
+	};
+
+
+	$( document ).ready(function() {
+
+		document.getElementById("btnDeal").addEventListener("click", function(){
+		   waitDeal();
+		});
+
+	});
+
+	//submit the form if user presses D or d
+	document.onkeypress = function(evt) {
+	   evt = evt || window.event;
+	   var charCode = evt.which || evt.keyCode;
+	   var charStr = String.fromCharCode(charCode);
+	   if (/[a-z0-9]/i.test(charStr)) {
+	       if(charStr == "d" || charStr == "D" || charStr == "p" || charStr == "P"){
+
+	       		$("form").submit();
+
+	       }
+
+	   }
+	};
+
+</script>
+

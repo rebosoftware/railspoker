@@ -1,0 +1,197 @@
+
+Welcome to railspoker.com!
+<br>
+<br>
+
+
+<%= button_to "Start Game", action: "new" %>
+
+<br>
+<BR>
+<BR>
+<b>Poker Hand Rankings</b><BR>
+<%
+pokerrankings = PokerRanking.all 
+pokerrankings.each do |rank|
+	%>
+  		<%=rank.rank_name.html_safe%>
+  		<%=rank.rank_order %>
+  		<%#=card.card_description%>
+	<%end%>
+
+<br><br>
+
+
+<br>
+<b>Dealers Cards</b><Br>
+dealerscards = PokerCard.all.sample(5)<br>
+dealerscards.each do |card|<Br>
+session[:dcards] = dealerscards<br>
+
+<%
+dealerscards = PokerCard.all.sample(5) 
+session[:dcards] = dealerscards
+
+dealerscards.each do |card|
+	cardimg = "deck/" + card.id.to_s + ".PNG"
+	%>
+  		<%#=cardimg.html_safe%>	
+  		<%= image_tag(cardimg.html_safe, :alt => card.card_description) %>
+  		<%#=card.card_description%>
+	<%end%>
+
+<br><br>
+
+<b>Players Cards</b><Br>
+playerscards = PokerCard.where.not(id: dealerscards)<Br>
+playerscards.sample(5).each do |card|<br>
+association card belongs to a suite and suite has many cards<br>
+card.poker_suite.suite_name  <br>
+session[:pcards] = playerscards<br>
+
+<%
+playerscards = PokerCard.where.not(id: dealerscards)
+playerscards = playerscards.sample(5) 
+session[:pcards] = playerscards
+
+playerscards.each do |card|
+cardimg = "deck/" + card.id.to_s + ".PNG"%>
+	<%= image_tag(cardimg.html_safe, :alt => card.card_description) %>
+	<%=card.poker_suite.suite_color%>
+<%end%>
+<br><Br>
+
+
+<%
+drawcards = PokerCard.where.not(id: dealerscards)
+drawcards = drawcards.reject{ |e| playerscards.include? e }
+drawcards = drawcards.sample(5)
+session[:drcards] = drawcards
+
+#playerscards.each do |del|
+#    drawcards.delete_at(drawcards.index(del))
+#end%>
+
+<b>Possible Draw Cards</b><br>
+drawcards = PokerCard.where.not(id: dealerscards)<br>
+drawcards = drawcards.reject{ |e| playerscards.include? e }<br>
+drawcards = drawcards.sample(5)<br>
+session[:drcards] = drawcards<br>
+
+<%drawcards.each do |card|
+	cardimg = "deck/" + card.id.to_s + ".PNG"
+	%>
+  		<%= image_tag(cardimg.html_safe, :alt => card.card_description) %>
+  	<%end%>
+<br><Br>
+
+<b>Using Named Scopes etc.. in model</b><br><br>
+
+
+<b>Dealer</b><br>
+
+<%
+dc = PokerCard.dealercards
+
+dc.each do |card|
+	cardimg = "deck/" + card.id.to_s + ".PNG"
+	%>
+  		<%= image_tag(cardimg.html_safe, :alt => card.card_description) %>
+  	<%end%>
+<br><Br>
+
+
+<b>Player</b><br>
+<%
+pc = PokerCard.playercards(dc)
+
+pc.each do |card|
+	cardimg = "deck/" + card.id.to_s + ".PNG"
+	%>
+  		<%= image_tag(cardimg.html_safe, :alt => card.card_description) %>
+  	<%end%>
+<br><Br>
+
+
+<b>Draw</b><br>
+<%
+dcc = PokerCard.drawcards(dc,pc,5)
+
+dcc.each do |card|
+	cardimg = "deck/" + card.id.to_s + ".PNG"
+	%>
+  		<%= image_tag(cardimg.html_safe, :alt => card.card_description) %>
+  	<%end%>
+<br><Br>
+
+<%='ruby 2.2.4p230  -  RAILS 4.2.5.1 '%>
+
+
+<%=1+1%>
+
+<%myVar=5%>
+
+<%=myVar%>
+<br>
+TNS_ADMIN = <%=ENV['TNS_ADMIN'] %>
+<br>
+
+ORACLE_HOME = <%=ENV['ORACLE_HOME'] %>
+<br>
+
+ORACLE_SID = <%=ENV['ORACLE_SID'] %>
+<br>
+
+<%='Ruby XSS protection: <script type="text/javascript">alert("you have not  been XSSd");</script>  '%>
+<br><br>
+
+gem install ruby-oci8<br>
+gem install activerecord-oracle_enhanced-adapter<br><br>
+
+rails new rpoker -d oracle<br>
+development:<br>
+&nbsp;&nbsp;adapter: oracle_enhanced<br>
+&nbsp;&nbsp;database: xe<br>
+&nbsp;&nbsp;username: uname<br>
+&nbsp;&nbsp;password: pwd<br><br>
+
+Gemfile:<br>
+&nbsp;&nbsp;gem 'ruby-oci8'<br>
+&nbsp;&nbsp;gem 'activerecord-oracle_enhanced-adapter'<br>
+&nbsp;&nbsp;bundle install<br><br>
+
+table: poker_cards<br>
+rails generate model PokerCard<br>
+
+<%# CVehicle v = CVehicle.new() %>
+
+<Br><BR>
+<b>Full Deck</b><BR>
+looping over the cards from the poker_cards table using PokerCard.all.each do |card|
+<br>
+cardimg = "deck/" + card.id.to_s + ".PNG"
+<br>
+
+<%PokerCard.all.each do |card|
+	cardimg = "deck/" + card.id.to_s + ".PNG"
+	%>
+  		<%#=cardimg.html_safe%>	
+  		<%= image_tag(cardimg.html_safe, :alt => card.card_description) %>
+  		<%#=card.card_description%>
+	<%end%>
+
+<br>
+Note: Anything in the public folder is accessible at the root path (/) 
+<br><br>
+
+from the asset pipeline using:
+<br> image_tag(cardimg.html_safe, :alt => card.card_description) 
+<br>
+<%= image_tag("deck/card_back.png", :alt => "back of poker card") %>
+<%= image_tag("deck/card_back.png", :alt => "back of poker card") %>
+<%= image_tag("deck/card_back.png", :alt => "back of poker card") %>
+<%= image_tag("deck/card_back.png", :alt => "back of poker card") %>
+<%= image_tag("deck/card_back.png", :alt => "back of poker card") %>
+<Br><br>
+
+

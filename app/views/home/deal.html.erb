@@ -1,0 +1,142 @@
+
+
+<%= form_tag :action => 'draw' do %>
+
+
+<b>Dealer</b>&nbsp;(<%=session[:dwins]%>)<br>
+<%= image_tag("deck3/dealer.png", height: "170", width: "100", alt:"dealer") %>&nbsp;
+<%i=0
+@dc.each do |card|
+	cardimg = "deck3/" + card.id.to_s + ".png"
+	i += 1
+	
+	if i <= 3 %>
+
+  		<%= image_tag(cardimg.html_safe, height: "170", width: "100", alt: card.card_description) %>&nbsp;
+  	<%else%>
+
+  		<%= image_tag("deck3/card_back.png", height: "170", width: "100", alt:"guess") %>&nbsp;
+  	<%end%>
+
+  	<%end%>
+<br><Br>
+
+	<b>Player</b>&nbsp;(<%=session[:pwins]%>)<br>
+	<table>
+	<tr>
+	<td>
+	<%= image_tag("deck3/player.png", height: "170", width: "100", alt:"player") %>&nbsp;
+	</td>
+	<%
+	i = 1
+	@pc.each do |card|
+		cardimg = "deck3/" + card.id.to_s + ".png"
+
+    	imgjs = "var chkbox = document.getElementById('hold"
+		imgjs += i.to_s
+		imgjs += "');chkbox.checked = !chkbox.checked;return false;"
+		i += 1
+		%>
+			<td>
+	  		
+	  		<%= image_tag(cardimg.html_safe, height: "170", width: "100", alt: card.card_description, onclick:imgjs.html_safe) %>&nbsp;
+	  		</td>
+	  	<%end%>
+	</tr>
+
+	<tr align="center">
+	<td>
+	&nbsp;
+	</td>
+	<%
+	i = 1
+	@pc.each do |card|
+		cardimg = "deck3/" + card.id.to_s + ".png"
+		unum = "<u>" + i.to_s + "</u>"
+		%>
+	  		<td >
+	  			Hold(<%=unum.html_safe%>)
+	  			<%#=check_box_tag 'hold' + i.to_s, "1", {:checked => "checked"} %>
+	  			<%=check_box_tag 'hold' + i.to_s, "1" %>
+
+	  			&nbsp;
+	  			<%i += 1%>
+	  		</td>
+	  	<%end%>
+	</tr>
+
+	</table>
+	<br>
+
+	<%= button_tag(type: "submit", id:"btnDraw", class: "button") do %>
+		<u>D</u>raw
+	<% end %>
+
+<%end%>
+
+<script type="text/javascript">
+	function waitDraw(){
+		$body.addClass("loading");
+	}
+
+	$( document ).ready(function() {
+
+		document.getElementById("btnDraw").addEventListener("click", function(){
+		   waitDraw();
+		});
+	});
+
+	//submit the form if user presses D or d
+	document.onkeypress = function(evt) {
+	   evt = evt || window.event;
+	   var charCode = evt.which || evt.keyCode;
+	   var charStr = String.fromCharCode(charCode);
+	   if (/[a-z0-9]/i.test(charStr)) {
+	       if(charStr == "d" || charStr == "D" || charStr == "p" || charStr == "P"){
+
+	       		$("form").submit();
+
+	       }
+
+	       if(charStr == "1"){
+
+	       		var chkbox = document.getElementById('hold1');
+	       		chkbox.checked = !chkbox.checked;
+	       		return;
+	       }
+	       if(charStr == "2"){
+
+	       		var chkbox = document.getElementById('hold2');
+	       		chkbox.checked = !chkbox.checked;
+	       		return;
+	       }
+	       if(charStr == "3"){
+
+	       		var chkbox = document.getElementById('hold3');
+	       		chkbox.checked = !chkbox.checked;
+	       		return;
+	       }
+	       if(charStr == "4"){
+
+	       		var chkbox = document.getElementById('hold4');
+	       		chkbox.checked = !chkbox.checked;
+	       		return;
+	       }
+	       if(charStr == "5"){
+
+	       		var chkbox = document.getElementById('hold5');
+	       		chkbox.checked = !chkbox.checked;
+	       		return;
+	       }
+
+	   }
+	};
+
+
+
+</script>
+
+
+
+
+
